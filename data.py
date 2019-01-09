@@ -20,3 +20,4 @@ def Articles():
   "create_date": "01-08-2019"
 }
     ]
+    return articles
