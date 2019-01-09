@@ -12,7 +12,7 @@ def about():
 
 @app.route('/articles')
 def articles():
-      return render_template('articles.html')
+      return render_template('articles.html', articles = Articles)
 
 
 if __name__ == "__main__":
