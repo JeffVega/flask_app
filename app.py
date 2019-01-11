@@ -5,6 +5,9 @@ from wtforms import Form,StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 app = Flask(__name__)
 
+# Config MySQL
+app.config['MYSQL_HOST'] = 'localhost'
+
 Articles = Articles()
 @app.route('/')
 def index():
