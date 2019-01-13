@@ -3,8 +3,12 @@ from data import Articles
 from flask_mysqldb import MySQL
 from wtforms import Form,StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
+import os
 app = Flask(__name__)
+local = os.getenv("LOCALHOST")
 
+print(local)
+print("hello there")
 # Config MySQL
 app.config['MYSQL_HOST'] = 'localhost'
 
