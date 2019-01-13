@@ -9,9 +9,11 @@ host = os.getenv("HOST")
 user = os.getenv("USER")
 passWrd = os.getenv("PASS")
 dataBse = os.getenv("DATAB")
+secret = os.getenv("SECRET_KEY")
 print(host,"this is our host")
 print(user,"this is our user")
 print(passWrd,"this is our passWrd")
+print(secret,"this is our secret")
 
 # Config MySQL
 app.config['MYSQL_HOST'] = host
@@ -48,8 +50,21 @@ class RegisterForm(Form):
 def register():
       form = RegisterForm(request.form)
       if request.method == 'POST' and form.validate():
-       return render_template('register.html')
+       name = form.name.data
+       username = form.username.data
+       password = sha256_crypt.encrypt(str(form.password.data))
+
+       cur = mysql.connection.cursor()
+       cur.execute("INSERT INTO users(name,username,password) VALUES(%s,%s,%s)",(name,username,password))
+       
+       mysql.connect.commit()
+       cur.close()
+
+       flash("You are now Registered and can log in",'success')
+       
+       return redirect(url_for('index'))
       
       return render_template('register.html', form=form)
 if __name__ == "__main__":
+    app.secret_key = secret  
     app.run(debug=True)
