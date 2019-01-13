@@ -5,12 +5,21 @@ from wtforms import Form,StringField, TextAreaField, PasswordField, validators
 from passlib.hash import sha256_crypt
 import os
 app = Flask(__name__)
-local = os.getenv("LOCALHOST")
+host = os.getenv("HOST")
+user = os.getenv("USER")
+passWrd = os.getenv("PASS")
+dataBse = os.getenv("DATAB")
+print(host,"this is our host")
+print(user,"this is our user")
+print(passWrd,"this is our passWrd")
 
-print(local)
-print("hello there")
 # Config MySQL
-app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_HOST'] = host
+app.config['MYSQL_USER'] = "root"
+app.config['MYSQL_PASSWORD'] = passWrd
+app.config['MYSQL_DB'] = dataBse
+app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+mysql = MySQL(app)
 
 Articles = Articles()
 @app.route('/')
@@ -32,7 +41,7 @@ class RegisterForm(Form):
       name = StringField('Name',[validators.Length(min=1,max=50)])
       username = StringField('Username',[validators.Length(min=4, max=25)])
       password = PasswordField('Password',[validators.DataRequired(),
-      validators.EqualTo('confirm', message='passwords do not match')])
+      validators.EqualTo('confirm', message='passwords does not match')])
       confirm = PasswordField('Confirm Password')
 
 @app.route('/register',methods=['GET', 'POST'])
